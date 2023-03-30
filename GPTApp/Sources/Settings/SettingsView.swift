@@ -34,7 +34,7 @@ public struct SettingsView: View {
             .foregroundColor(.secondary)
           
           Button("Save") {
-            ViewStore(store).send(.save)
+            viewStore.send(.save)
           }
         }
         .onAppear {

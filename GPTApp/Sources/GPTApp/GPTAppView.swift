@@ -22,7 +22,7 @@ public struct GPTAppView: View {
   public var body: some View {
     NavigationSplitView {
       WithViewStore(store, observe: {$0} ) { viewStore in
-          List(selection: ViewStore(store).binding(\.$selectedChatID)) {
+          List(selection: viewStore.binding(\.$selectedChatID)) {
             ForEach(viewStore.chats.map(\.id), id: \.self) { id in
               IfLetStore(store.scope(state: \.chats[id: id], action: { GPTAppReducer.Action.chat(id: id, action: $0) })) { store in
                 WithViewStore(store) { viewStore in
