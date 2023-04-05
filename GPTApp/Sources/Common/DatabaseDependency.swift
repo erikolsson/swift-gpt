@@ -61,6 +61,13 @@ actor MessagesDatabase {
       try message.saved(db)
     }
   }
+  
+  func delete(parentID: String) async throws {
+    _ = try await dbQueue.write({ db in
+      try Message.filter(Column("parentID") == parentID)
+        .deleteAll(db)
+    })
+  }
 
 }
 
@@ -68,6 +75,7 @@ public struct DatabaseClient {
   
   public var load: @Sendable () async throws -> [Message] = { fatalError() }
   public var save: (Message) async throws -> Void = { _ in fatalError() }
+  public var deleteChat: (String) async throws -> Void = { _ in fatalError() }
   
   static let live: DatabaseClient = {
     let database = MessagesDatabase()
@@ -79,6 +87,10 @@ public struct DatabaseClient {
     
     client.save = { message in
       try await database?.save(message: message)
+    }
+    
+    client.deleteChat = { id in
+      try await database?.delete(parentID: id)
     }
     
     return client

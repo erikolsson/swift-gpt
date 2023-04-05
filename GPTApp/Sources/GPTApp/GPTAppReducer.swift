@@ -34,6 +34,7 @@ public struct GPTAppReducer: ReducerProtocol {
     case didLoadMessages([Common.Message])
     case binding(BindingAction<State>)
     case addChat
+    case deleteChat(ChatReducer.State.ID)
     case selectChat(ChatReducer.State.ID)
     case settings(SettingsReducer.Action)
     case chat(id: ChatReducer.State.ID, action: ChatReducer.Action)
@@ -79,6 +80,16 @@ public struct GPTAppReducer: ReducerProtocol {
         state.selectedChatID = chat.id
         return .none
         
+      case let .deleteChat(id):
+        _ = state.chats.remove(id: id)
+        return .run { send in
+          do {
+            try await databaseClient.deleteChat(id)
+          } catch let err {
+            print(err)
+          }
+        }
+
       case let.selectChat(id):
         state.selectedChatID = id
         return .none

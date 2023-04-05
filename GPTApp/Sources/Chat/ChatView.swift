@@ -37,6 +37,7 @@ public struct ChatView: View {
             }
           }
         }
+        .layoutPriority(0.7)
         
         WithViewStore(store, observe: {$0}) { viewStore in
           HStack {
@@ -57,7 +58,8 @@ public struct ChatView: View {
           }
           .padding()
         }
-        .frame(minHeight: 100, idealHeight: 200)
+        .frame(minHeight: 80)
+        .layoutPriority(0.3)
         
       }
   }

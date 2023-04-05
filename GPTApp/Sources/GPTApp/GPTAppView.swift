@@ -28,6 +28,11 @@ public struct GPTAppView: View {
                 WithViewStore(store) { viewStore in
                   Text(viewStore.title)
                 }
+                .contextMenu(ContextMenu(menuItems: {
+                  Button("Delete") {
+                    viewStore.send(.deleteChat(id))
+                  }
+                }))
               }
             }
           }
