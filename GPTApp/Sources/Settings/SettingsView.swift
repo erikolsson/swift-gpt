@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import Common
 
 public struct SettingsView: View {
   let store: StoreOf<SettingsReducer>

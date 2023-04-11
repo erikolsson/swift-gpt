@@ -75,7 +75,8 @@ public struct GPTAppReducer: ReducerProtocol {
         return .none
         
       case .addChat:
-        let chat = ChatReducer.State.init()
+        var chat = ChatReducer.State.init()
+        chat.model = state.model
         state.chats.insert(chat, at: 0)
         state.selectedChatID = chat.id
         return .none

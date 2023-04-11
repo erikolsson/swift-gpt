@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 import SwiftDown
+import Common
 
 public struct ChatView: View {
   
@@ -57,6 +58,15 @@ public struct ChatView: View {
               }
           }
           .padding()
+          .toolbar {
+            ToolbarItemGroup(placement: .automatic) {
+              Picker("System Prompt", selection: viewStore.binding(\.$systemPrompt)) {
+                ForEach(SystemPrompt.allCases) { prompt in
+                  Text(prompt.title).tag(prompt)
+                }
+              }
+            }
+          }
         }
         .frame(minHeight: 80)
         .layoutPriority(0.3)

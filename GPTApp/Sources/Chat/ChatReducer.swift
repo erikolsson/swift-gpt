@@ -17,6 +17,7 @@ public struct ChatReducer: ReducerProtocol {
     public var model: String = ""
     let createdAt: Date = Date()
     @BindingState var currentMessageText: String = ""
+    @BindingState var systemPrompt = SystemPrompt.general
     var messages = IdentifiedArrayOf<Message>()
     var isLoading = false
 
@@ -52,7 +53,7 @@ public struct ChatReducer: ReducerProtocol {
         state.currentMessageText = ""
         
         let systemMessage = OpenAICompletionsRequest.Message(role: "system",
-                                                             content: "You are macOSGPT, a large language model trained by OpenAI. Answer as concisely as possible. Knowledge cutoff: 20230301 Current date: 20230330")
+                                                             content: state.systemPrompt.prompt)
         let messages = state.messages.map(\.asOpenAIMessage)
         let request = OpenAICompletionsRequest.init(model: state.model, messages: [systemMessage] + messages)
         

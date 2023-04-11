@@ -15,8 +15,11 @@ class MarkdownStyler: Styler {
   let highlighter = Highlighter()
   
   func style(code str: NSMutableAttributedString) {
-    str.addAttributes([.foregroundColor: NSColor.orange,
-                       .backgroundColor: NSColor.black],
+    str.addAttributes([
+      .foregroundColor: NSColor.red,
+      .backgroundColor: NSColor.black,
+      .font: NSFont.monospacedSystemFont(ofSize: 12, weight: .regular)
+    ],
                       range: NSRange(location: 0, length: str.length))
   }
   
