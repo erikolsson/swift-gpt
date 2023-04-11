@@ -18,6 +18,7 @@ public enum SystemPrompt: Hashable, Identifiable, CaseIterable {
   case swift
   case golang
   case html
+  case bash
   
   public var title: String {
     switch self {
@@ -31,6 +32,8 @@ public enum SystemPrompt: Hashable, Identifiable, CaseIterable {
       return "Golang"
     case .html:
       return "HTML"
+    case .bash:
+      return "Bash"
     }
   }
   
@@ -38,6 +41,7 @@ public enum SystemPrompt: Hashable, Identifiable, CaseIterable {
     switch self {
     case .general:
       return "You are macOSGPT, a large language model trained by OpenAI. Answer as concisely as possible. Knowledge cutoff: 20230301 Current date: 20230330"
+
     case .react:
       return "You are ReactGPT. You answer every question with React code in Typescript"
       
@@ -49,6 +53,9 @@ public enum SystemPrompt: Hashable, Identifiable, CaseIterable {
     
     case .html:
       return "You are HTMLGPT. You answer every question with HTML and CSS code"
+      
+    case .bash:
+      return "You are BashGPT. You answer every question with Bash code"
     }
   }
 }

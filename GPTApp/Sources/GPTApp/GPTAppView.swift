@@ -26,7 +26,11 @@ public struct GPTAppView: View {
             ForEach(viewStore.chats.map(\.id), id: \.self) { id in
               IfLetStore(store.scope(state: \.chats[id: id], action: { GPTAppReducer.Action.chat(id: id, action: $0) })) { store in
                 WithViewStore(store) { viewStore in
-                  Text(viewStore.title)
+                  VStack(alignment: .leading) {
+                    Text(viewStore.title)
+                    Text(viewStore.systemPrompt.title)
+                      .foregroundColor(.secondary)
+                  }
                 }
                 .contextMenu(ContextMenu(menuItems: {
                   Button("Delete") {
@@ -77,6 +81,7 @@ public struct GPTAppView: View {
     .sheet(isPresented: $modalViewVisible) {
       SettingsView(store: store.scope(state: \.settings, action: GPTAppReducer.Action.settings))
     }
+    .navigationTitle("Code GPT")
     
   }
   

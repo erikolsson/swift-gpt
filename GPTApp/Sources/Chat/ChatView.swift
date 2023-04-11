@@ -36,6 +36,12 @@ public struct ChatView: View {
                 }
               }
             }
+            
+            WithViewStore(store, observe: \.isLoading) { viewStore in
+              if viewStore.state {
+                ProgressView()
+              }
+            }
           }
         }
         .layoutPriority(0.7)

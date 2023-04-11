@@ -17,7 +17,7 @@ public struct ChatReducer: ReducerProtocol {
     public var model: String = ""
     let createdAt: Date = Date()
     @BindingState var currentMessageText: String = ""
-    @BindingState var systemPrompt = SystemPrompt.general
+    @BindingState public var systemPrompt = SystemPrompt.general
     var messages = IdentifiedArrayOf<Message>()
     var isLoading = false
 
@@ -51,7 +51,7 @@ public struct ChatReducer: ReducerProtocol {
         let newMessage = Message(text: state.currentMessageText, incoming: false, createdAt: Date())
         state.messages.append(newMessage)
         state.currentMessageText = ""
-        
+        state.isLoading = true
         let systemMessage = OpenAICompletionsRequest.Message(role: "system",
                                                              content: state.systemPrompt.prompt)
         let messages = state.messages.map(\.asOpenAIMessage)
@@ -70,6 +70,7 @@ public struct ChatReducer: ReducerProtocol {
         }
         
       case let .didReceiveResponse(.success(response)):
+        state.isLoading = false
         var databaseMessages: [Common.Message] = []
         for choice in response.choices {
           let text = choice.message.content
@@ -91,6 +92,7 @@ public struct ChatReducer: ReducerProtocol {
         }
         
       case let .didReceiveResponse(.failure(err)):
+        state.isLoading = false
         print(err)
         return .none
 
