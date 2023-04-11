@@ -22,7 +22,7 @@ public enum SystemPrompt: Hashable, Identifiable, CaseIterable {
   public var title: String {
     switch self {
     case .general:
-      return "Regular"
+      return "Default"
     case .react:
       return "React"
     case .swift:
